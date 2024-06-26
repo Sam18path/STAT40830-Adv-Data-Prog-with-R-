@@ -1,0 +1,62 @@
+---
+title: "STAT40830-Adv Data Prog with R Assignment 2"
+author: "Sai Sampath Vadrevu - 23200373"
+format: pdf
+editor: visual
+---
+
+```{r}
+# Import necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Load the iris dataset
+data("iris")
+
+# Display the first few rows of the dataset
+head(iris)
+
+# Calculate and print summary statistics for Sepal Length and Sepal Width
+summary_stats <- iris %>%
+  summarize(
+    min_sepal_length = min(Sepal.Length),
+    max_sepal_length = max(Sepal.Length),
+    mean_sepal_length = mean(Sepal.Length),
+    median_sepal_length = median(Sepal.Length),
+    first_quartile_sepal_length = quantile(Sepal.Length, 0.25),
+    third_quartile_sepal_length = quantile(Sepal.Length, 0.75),
+    min_sepal_width = min(Sepal.Width),
+    max_sepal_width = max(Sepal.Width),
+    mean_sepal_width = mean(Sepal.Width),
+    median_sepal_width = median(Sepal.Width),
+    first_quartile_sepal_width = quantile(Sepal.Width, 0.25),
+    third_quartile_sepal_width = quantile(Sepal.Width, 0.75)
+  )
+
+print("Summary Statistics:")
+print(summary_stats)
+
+# Create a scatter plot of Sepal Length vs Sepal Width with a regression line
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "blue") +
+  labs(
+    title = "Relationship between Sepal Length and Sepal Width",
+    x = "Sepal Length (cm)",
+    y = "Sepal Width (cm)"
+  ) +
+  theme_minimal()
+
+# Calculate and display the correlation between Sepal Length and Sepal Width
+correlation <- cor(iris$Sepal.Length, iris$Sepal.Width)
+print(paste("Correlation between Sepal Length and Sepal Width:", correlation))
+
+# Interpret the results
+cat("Interpretation:\n")
+cat("The summary statistics indicate that Sepal Length ranges from", summary_stats$min_sepal_length, "to", summary_stats$max_sepal_length, 
+    "with an average of", round(summary_stats$mean_sepal_length, 2), "cm. Sepal Width ranges from", 
+    summary_stats$min_sepal_width, "to", summary_stats$max_sepal_width, "with an average of", round(summary_stats$mean_sepal_width, 2), "cm.\n")
+cat("The scatter plot with a regression line shows a weak negative correlation between Sepal Length and Sepal Width,",
+    "suggesting that as Sepal Length increases, Sepal Width slightly decreases.\n")
+cat("This is supported by the correlation coefficient of", round(correlation, 2), "indicating a weak negative correlation.\n")
+```
